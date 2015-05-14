@@ -152,7 +152,7 @@ int listerate(LinkedList* input, listerator lst)
     return ERROR;
   }
 
-  while(ccount != input->length)
+  while(ccount != input->size)
   {
     lst(noddy);
     if(noddy->next)

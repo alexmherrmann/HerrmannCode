@@ -52,6 +52,7 @@ void deleteLinkedList(LinkedList* input);
 // NOTE: there is no type checking or anything, it's a very basic structure
 int addToLinkedList(LinkedList* input, LIST_LENGTH position, void* data);
 #define ADD_ERROR 0x0001
+#define ERROR ADD_ERROR
 
 
 // simple wrapper definitions
