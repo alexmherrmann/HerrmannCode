@@ -25,6 +25,8 @@ gcc person.c
 Go to their [download page](https://golang.org/dl/) and download the package that you need for your OS, and install it.
 
 then run
+
+yep, that's it
 ```
 go run person.go
 ```
