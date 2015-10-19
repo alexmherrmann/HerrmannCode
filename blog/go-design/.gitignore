@@ -1,0 +1,7 @@
+#java
+*.class
+
+#the executableish files
+a.out
+person
+*.o
