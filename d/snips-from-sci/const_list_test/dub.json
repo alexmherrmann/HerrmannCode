@@ -1,0 +1,14 @@
+{
+	"name": "const_list_test",
+	"description": "code for Nikki Wyman's Idea, still exploratory",
+	"copyright": "Copyright © 2016, alex",
+  "targetType": "executable",
+	"authors": ["alex"],
+	"nodependencies": {
+
+	},
+	"dependencies": {
+		"vibe-d": "~>0.7.27"
+	},
+	"versions": ["VibeCustomMain"]
+}

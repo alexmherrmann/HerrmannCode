@@ -1,0 +1,12 @@
+{
+	"name": "nikki-code",
+	"description": "code for Nikki Wyman's Idea, still exploratory",
+	"copyright": "Copyright © 2016, alex",
+	"authors": ["alex"],
+	"nodependencies": {
+
+	},
+	"dependencies": {
+		"vibe-d": "~>0.7.27"
+	}
+}
