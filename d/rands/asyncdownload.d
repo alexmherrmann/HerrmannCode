@@ -1,11 +1,12 @@
 import std.stdio;
-import std.parallelism;
+import std.parallelism : task, TaskPool;
 import std.net.curl;
 import std.format;
 
 import std.datetime;
 import std.conv;
 import core.time;
+import core.thread;
 
 void log(string write) {
   SysTime now = Clock.currTime();
@@ -25,13 +26,13 @@ struct AsyncDownload {
     int downloaded = -1;
     bool completed = false;
 
-    TaskPool downloadPool = new TaskPool;
+    TaskPool downloadPool;
   }
 
   public this(string urlin) {
     this.internalHttp = HTTP(urlin);
     this.setUp(this.internalHttp);
-
+    downloadPool = new TaskPool();
     // this.downloadTask = null;
   }
 
@@ -42,17 +43,22 @@ struct AsyncDownload {
 
   public void execute() {
     auto gettask = task!((ref HTTP h, ref bool c) {
+      debug writeln("starting download");
       h.perform();
+      debug writeln("done downloading");
       c = true;
+      // destroy(h);
     })(this.internalHttp, this.completed);
     downloadPool.put(gettask);
     // this.thetask = gettask;
-    pragma(msg, typeof(typeid(gettask)));
 
   }
 
   public void wait() {
     this.downloadPool.finish(true);
+    this.downloadPool.stop();
+    destroy(this.downloadPool);
+    debug writeln("Finished waiting");
   }
 
   private void setUp(ref HTTP inhttp) {
@@ -71,7 +77,7 @@ struct AsyncDownload {
   }
 
 }
-void main() {
+int main() {
   HTTP get1 = HTTP("httpbin.org/ip");
   get1.onReceiveHeader((carr k, carr v) {writefln("%-30s : %s", k, v);});
   get1.perform();
@@ -82,4 +88,8 @@ void main() {
   log("Started execution");
   get2.wait();
   log("Finished!");
+  Thread.sleep(200.dur!"msecs");
+  log("exiting");
+
+  return 1;
 }
