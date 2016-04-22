@@ -6,7 +6,8 @@ html
     include bootstrap
   body.container
     h1.text-center #{infos.length} files available:
-    - foreach(a ; infos)
-      p Have filename: #{ a.name }
-        //- |= a.name
-      
+    ul
+      - foreach(a ; infos)
+        li
+          a(href="/md/!{a.name}") #{a.name}
+        
