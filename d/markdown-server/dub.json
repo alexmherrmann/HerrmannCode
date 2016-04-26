@@ -1,10 +1,10 @@
 {
-	"name": "markdown-server",
-	"description": "A minimal D application.",
-	"copyright": "Copyright © 2016, alex",
-	"authors": ["alex"],
-	"dependencies": {
-		"vibe-d": "~>0.7.27"
-	},
-	"versions": ["VibeDefaultMain"]
+  "name": "markdown-server",
+  "description": "A minimal D application.",
+  "copyright": "Copyright © 2016, alex",
+  "authors": ["alex"],
+  "notdependencies": {
+    "vibe-d": "~>0.7.27"
+  },
+  "versions": ["VibeDefaultMain"]
 }

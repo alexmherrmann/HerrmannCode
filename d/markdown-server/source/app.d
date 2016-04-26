@@ -14,9 +14,9 @@ void renderMd(HTTPServerRequest req, HTTPServerResponse res) {
   // Good to render it!
   //TODO: switch all functions to vibe.d functions
   if (exists(file) && isFile(file) ) {
-    string pagename = docparam;
-    string content = filterMarkdown(readFileUTF8(file));
-    res.render!("markdownview.dt", pagename, content);
+    // string pagename = docparam;
+    const string content = filterMarkdown(readFileUTF8(file));
+    res.render!("markdownview.dt", docparam, content);
     // res.writeBody(filterMarkdown(readFileUTF8(file)), content_type);
   } else {
     res.statusCode = 404;
