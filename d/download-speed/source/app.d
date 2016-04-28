@@ -1,4 +1,4 @@
-import std.stdio;
+import std.stdio : stderr, writefln;
 import std.algorithm;
 import core.time;
 import std.datetime;
@@ -16,26 +16,29 @@ void sleeptest() {
   Thread.sleep(msecs(20));
 }
 
-immutable ulong streamtestlength = 1024 * 12;
+immutable ulong streamtestlength = 1024 * 24;
 immutable string streamtesturl = "https://httpbin.org/stream-bytes/" ~ streamtestlength.to!string;
 void curlTest() {
   // auto dat = get(streamtesturl);
+  int count = 0;
   ubyte[] alldata;
-  auto http = HTTP("dlang.org");
+  auto http = HTTP(streamtesturl);
   http.onReceive = (ubyte[] data) {alldata ~= data; return data.length;};
   http.perform();
-  writeln(alldata.length);
+  assert (alldata.length == streamtestlength);
+  //writeln(alldata.length);
 
-  write("download.txt", cast(string) alldata);
-  // assert (alldata.length == streamtestlength);
+  //write("download.txt", cast(string) alldata);
 }
 
 void vibeTest() {
   ulong j;
   requestHTTP(streamtesturl,
     (scope req) {},
-    (scope res) {j = res.bodyReader.readAllUTF8().length; res.dropBody();}
+    (scope res) {j = res.bodyReader.readAll().length; res.dropBody();}
   );
+
+  // logInfo("%5d == %5d", j, streamtestlength);
   assert (j == streamtestlength);
 }
 
@@ -65,8 +68,8 @@ long time(void function() totime, int reps=30, int warmup=5) {
 // TODO: ooh make a parallel one of the above too
 
 void main() {
-  // stderr.writefln("should be 20: %3d", time(&sleeptest, 60,10));
-  // stderr.writefln("curl streamtest: %d", time(&curlTest, 10, 1));
-  // stderr.writefln("vibe streamtest: %d", time(&vibeTest, 10, 1));
-  time(&curlTest,1,0);
+  stderr.writefln("should be 20: %3d", time(&sleeptest, 15,5));
+  stderr.writefln("curl streamtest: %d", time(&curlTest, 8, 2));
+  stderr.writefln("vibe streamtest: %d", time(&vibeTest, 8, 2));
+  // time(&curlTest,1,0);
 }
