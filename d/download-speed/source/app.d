@@ -16,7 +16,7 @@ void sleeptest() {
   Thread.sleep(msecs(20));
 }
 
-immutable ulong streamtestlength = 1024 * 64; // 64 kb
+immutable ulong streamtestlength = 1024 * 32; // 64 kb
 immutable string streamtesturl = "https://httpbin.org/stream-bytes/" ~ streamtestlength.to!string;
 void curlTest() {
   // auto dat = get(streamtesturl);
@@ -61,19 +61,32 @@ void vibeStreamTest() {
     (scope req) {},
     (scope res) {
       // ubyte[] data;
-			ubyte[] buffer;
-			while (!res.bodyReader.empty)
-			{
-				buffer.length = res.bodyReader.leastSize;
-				res.bodyReader.read(buffer);
-				alldata ~= buffer.dup;
-			}
+      ubyte[] buffer;
+      while (!res.bodyReader.empty)
+      {
+        buffer.length = res.bodyReader.leastSize;
+        res.bodyReader.read(buffer);
+        alldata ~= buffer.dup;
+      }
 
     }
   );
-  // logInfo("\n\n\nhere's all the data\n%s", cast(string) alldata);
-  // logInfo("%5d == %5d", j, streamtestlength);
-  // assert (j == streamtestlength);
+}
+
+void vibeNoDelegateStreamTest() {
+  ulong j;
+  ubyte[] alldata;
+  auto res = requestHTTP(streamingurl,
+    (scope req) {},
+  );
+
+  ubyte[] buffer;
+  while (!res.bodyReader.empty)
+  {
+    buffer.length = res.bodyReader.leastSize;
+    res.bodyReader.read(buffer);
+    alldata ~= buffer.dup;
+  }
 }
 
 
@@ -105,7 +118,9 @@ void main() {
   stderr.writefln("should be 20: %3d", time(&sleeptest, 15,5));
   stderr.writefln("curl test: %d", time(&curlTest, 5, 1));
   stderr.writefln("vibe test: %d", time(&vibeTest, 5, 1));
-  stderr.writefln("curl streamtest: %d", time(&curlStreamTest, 5, 1));
-  stderr.writefln("vibe streamtest: %d", time(&vibeStreamTest, 5, 1));
+  stderr.writefln("curl streamtest: %d", time(&curlStreamTest, 15, 5));
+  stderr.writefln("vibe streamtest: %d", time(&vibeStreamTest, 15, 5));
+  stderr.writefln("vibe no delegate streamtest: %d", time(&vibeNoDelegateStreamTest, 15, 5));
+
 
 }
