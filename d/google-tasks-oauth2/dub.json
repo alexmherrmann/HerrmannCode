@@ -1,0 +1,8 @@
+{
+	"name": "google-tasks-oauth2",
+	"description": "A minimal D application.",
+	"copyright": "Copyright © 2016, alex",
+	"authors": ["alex"],
+	"dependencies": {
+	}
+}
