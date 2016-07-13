@@ -2,17 +2,21 @@
 // Created by alex on 7/8/16.
 //
 
-#include <string>
 
 #ifndef C_CROW_TODO_H
 #define C_CROW_TODO_H
 
-using std::string;
-struct todo {
+#include <string>
+using namespace std;
+
+class Todo {
 public:
     string description;
     bool checked;
-
     string toString();
+
+    Todo();
+    Todo(const char* s, bool b);
 };
+
 #endif //C_CROW_TODO_H

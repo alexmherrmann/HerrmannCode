@@ -1,0 +1,24 @@
+<html>
+    <head>
+        <title>Test default todolist page</title>
+    </head>
+
+    <body>
+        <h4>Default todolist: {{todolist.name}}</h4>
+        <hr />
+        <ul>
+            {{#todolist.todos}}
+                <li>{{description}} &nbsp;
+                    <b>
+                        {{#checked}}
+                            &checkmark;
+                        {{/checked}}
+                        {{^checked}}
+                            &cross;
+                        {{/checked}}
+                    </b>
+                </li>
+            {{/todolist.todos}}
+        </ul>
+    </body>
+</html>
